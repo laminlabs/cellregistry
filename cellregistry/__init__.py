@@ -1,12 +1,13 @@
 """A registry for single cells [`source <https://github.com/laminlabs/cellregistry/blob/main/cellregistry/models.py>`__].
 
-Install the package::
+Install and mount `cellregistry` in a new instance:
 
-   pip install cellregistry
+>>> pip install cellregistry
+>>> lamin init --storage ./test-cellregistry --schema bionty,cellregistry
 
-Import the package::
+Import the package:
 
-   import cellregistry as creg
+>> import cellregistry as creg
 
 The `Cell` registry:
 

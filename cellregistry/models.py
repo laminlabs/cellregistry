@@ -28,14 +28,14 @@ class Cell(Record, CanValidate, TracksRun, TracksUpdates):
 
     id: int = models.BigAutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid: str = models.CharField(unique=True, max_length=12, default=ids.base62_12)
+    uid: str = models.CharField(unique=True, max_length=20, default=ids.base62_20)
     """Universal id, valid across DB instances."""
     name: str = models.CharField(max_length=255, default=None, db_index=True)
     """A name for the cell."""
-    artifacts: Artifact = models.ManyToManyField(
+    measured_in: Artifact = models.ManyToManyField(
         Artifact, through="ArtifactReference", related_name="references"
     )
-    """Artifacts labeled with this reference."""
+    """Artifacts that measured this cell."""
 
 
 class ArtifactCell(Record, LinkORM, TracksRun):
