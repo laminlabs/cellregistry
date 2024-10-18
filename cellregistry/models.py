@@ -51,18 +51,18 @@ class Cell(Record, CanValidate, TracksRun, TracksUpdates):
         max_length=255, db_index=True, null=True, default=None
     )
     """A description."""
-    ulabels: ULabel = models.ManyToManyField(
-        ULabel, through="CellULabel", related_name="cells"
-    )
-    """Cell type labels for this cell."""
-    cell_types: CellType = models.ManyToManyField(
-        CellType, through="CellCellType", related_name="cells"
-    )
-    """Cell type labels for this cell."""
-    artifacts: Artifact = models.ManyToManyField(
-        Artifact, through="ArtifactCell", related_name="cells"
-    )
-    """Artifacts that measured this cell."""
+    # ulabels: ULabel = models.ManyToManyField(
+    #     ULabel, through="CellULabel", related_name="cells"
+    # )
+    # """Cell type labels for this cell."""
+    # cell_types: CellType = models.ManyToManyField(
+    #     CellType, through="CellCellType", related_name="cells"
+    # )
+    # """Cell type labels for this cell."""
+    # artifacts: Artifact = models.ManyToManyField(
+    #     Artifact, through="ArtifactCell", related_name="cells"
+    # )
+    # """Artifacts that measured this cell."""
 
 
 class ArtifactCell(Record, LinkORM, TracksRun):
