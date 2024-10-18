@@ -75,9 +75,7 @@ class CellCellType:
     id: int = models.BigAutoField(primary_key=True)
     cell: Cell = models.ForeignKey(Cell, CASCADE, related_name="links_cell_type")
     # follow the .lower() convention in link models
-    celltype: CellType = models.ForeignKey(
-        "CellType", PROTECT, related_name="links_artifact"
-    )
+    celltype: CellType = models.ForeignKey(CellType, PROTECT, related_name="links_cell")
     feature: Feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="links_cellcelltype"
     )
@@ -85,7 +83,7 @@ class CellCellType:
 
 class CellULabel:
     id: int = models.BigAutoField(primary_key=True)
-    cell: Cell = models.ForeignKey(Cell, CASCADE, related_name="links_cell")
+    cell: Cell = models.ForeignKey(Cell, CASCADE, related_name="links_ulabel")
     ulabel: ULabel = models.ForeignKey(ULabel, PROTECT, related_name="links_cell")
     feature: Feature = models.ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="links_cellulabel"
