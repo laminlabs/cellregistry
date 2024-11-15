@@ -7,7 +7,7 @@ from lnschema_core import ids
 from lnschema_core.fields import CharField, ForeignKey
 from lnschema_core.models import (
     Artifact,
-    CanValidate,
+    CanCurate,
     Feature,
     LinkORM,
     Record,
@@ -17,7 +17,7 @@ from lnschema_core.models import (
 )
 
 
-class Cell(Record, CanValidate, TracksRun, TracksUpdates):
+class Cell(Record, CanCurate, TracksRun, TracksUpdates):
     """Single cells.
 
     Example:
