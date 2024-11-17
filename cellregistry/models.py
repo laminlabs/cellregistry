@@ -4,9 +4,10 @@ from bionty.models import CellType
 from django.db import models
 from django.db.models import CASCADE, PROTECT
 from lnschema_core import ids
+from lnschema_core.fields import CharField, ForeignKey
 from lnschema_core.models import (
     Artifact,
-    CanValidate,
+    CanCurate,
     Feature,
     LinkORM,
     Record,
@@ -16,7 +17,7 @@ from lnschema_core.models import (
 )
 
 
-class Cell(Record, CanValidate, TracksRun, TracksUpdates):
+class Cell(Record, CanCurate, TracksRun, TracksUpdates):
     """Single cells.
 
     Example:
@@ -30,11 +31,9 @@ class Cell(Record, CanValidate, TracksRun, TracksUpdates):
 
     id: int = models.BigAutoField(primary_key=True)
     """Internal id, valid only in one DB instance."""
-    uid: str = models.CharField(unique=True, max_length=20, default=ids.base62_20)
+    uid: str = CharField(unique=True, max_length=20, default=ids.base62_20)
     """Universal id, valid across DB instances."""
-    name: str = models.CharField(
-        max_length=255, default=None, unique=True, db_index=True
-    )
+    name: str = CharField(max_length=255, default=None, unique=True, db_index=True)
     """A unique name for the cell.
 
     It's typically the barcode combined with an identifier for the dataset that
@@ -47,9 +46,7 @@ class Cell(Record, CanValidate, TracksRun, TracksUpdates):
         Pan_T7935494_ATCATGGTCTACCTGC
 
     """
-    description: str = models.CharField(
-        max_length=255, db_index=True, null=True, default=None
-    )
+    description: str = CharField(max_length=255, db_index=True, null=True, default=None)
     """A description."""
     # ulabels: ULabel = models.ManyToManyField(
     #     ULabel, through="CellULabel", related_name="cells"
@@ -67,24 +64,24 @@ class Cell(Record, CanValidate, TracksRun, TracksUpdates):
 
 class ArtifactCell(Record, LinkORM, TracksRun):
     id: int = models.BigAutoField(primary_key=True)
-    artifact: Artifact = models.ForeignKey(Artifact, CASCADE, related_name="links_cell")
-    cell: Cell = models.ForeignKey(Cell, CASCADE, related_name="links_artifact")
+    artifact: Artifact = ForeignKey(Artifact, CASCADE, related_name="links_cell")
+    cell: Cell = ForeignKey(Cell, CASCADE, related_name="links_artifact")
 
 
 class CellCellType:
     id: int = models.BigAutoField(primary_key=True)
-    cell: Cell = models.ForeignKey(Cell, CASCADE, related_name="links_cell_type")
+    cell: Cell = ForeignKey(Cell, CASCADE, related_name="links_cell_type")
     # follow the .lower() convention in link models
-    celltype: CellType = models.ForeignKey(CellType, PROTECT, related_name="links_cell")
-    feature: Feature = models.ForeignKey(
+    celltype: CellType = ForeignKey(CellType, PROTECT, related_name="links_cell")
+    feature: Feature = ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="links_cellcelltype"
     )
 
 
 class CellULabel:
     id: int = models.BigAutoField(primary_key=True)
-    cell: Cell = models.ForeignKey(Cell, CASCADE, related_name="links_ulabel")
-    ulabel: ULabel = models.ForeignKey(ULabel, PROTECT, related_name="links_cell")
-    feature: Feature = models.ForeignKey(
+    cell: Cell = ForeignKey(Cell, CASCADE, related_name="links_ulabel")
+    ulabel: ULabel = ForeignKey(ULabel, PROTECT, related_name="links_cell")
+    feature: Feature = ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="links_cellulabel"
     )
