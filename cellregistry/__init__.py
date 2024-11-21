@@ -7,7 +7,7 @@ Install and mount `cellregistry` in a new instance:
 
 Import the package:
 
->> import cellregistry as creg
+>>> import cellregistry as creg
 
 The `Cell` registry:
 
