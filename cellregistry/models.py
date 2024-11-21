@@ -33,7 +33,7 @@ class Cell(Record, CanCurate, TracksRun, TracksUpdates):
     """Internal id, valid only in one DB instance."""
     uid: str = CharField(unique=True, max_length=20, default=ids.base62_20)
     """Universal id, valid across DB instances."""
-    name: str = CharField(max_length=255, default=None, unique=True, db_index=True)
+    name: str = CharField(unique=True, db_index=True)
     """A unique name for the cell.
 
     It's typically the barcode combined with an identifier for the dataset that
@@ -46,7 +46,7 @@ class Cell(Record, CanCurate, TracksRun, TracksUpdates):
         Pan_T7935494_ATCATGGTCTACCTGC
 
     """
-    description: str = CharField(max_length=255, db_index=True, null=True, default=None)
+    description: str | None = CharField(db_index=True, null=True)
     """A description."""
     # ulabels: ULabel = models.ManyToManyField(
     #     ULabel, through="CellULabel", related_name="cells"
@@ -73,7 +73,7 @@ class CellCellType:
     cell: Cell = ForeignKey(Cell, CASCADE, related_name="links_cell_type")
     # follow the .lower() convention in link models
     celltype: CellType = ForeignKey(CellType, PROTECT, related_name="links_cell")
-    feature: Feature = ForeignKey(
+    feature: Feature | None = ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="links_cellcelltype"
     )
 
@@ -82,6 +82,6 @@ class CellULabel:
     id: int = models.BigAutoField(primary_key=True)
     cell: Cell = ForeignKey(Cell, CASCADE, related_name="links_ulabel")
     ulabel: ULabel = ForeignKey(ULabel, PROTECT, related_name="links_cell")
-    feature: Feature = ForeignKey(
+    feature: Feature | None = ForeignKey(
         Feature, PROTECT, null=True, default=None, related_name="links_cellulabel"
     )
