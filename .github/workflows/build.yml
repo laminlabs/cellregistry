@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       GITHUB_EVENT_NAME: ${{ github.event_name }}
     strategy:
@@ -16,10 +16,7 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python: "3.10"
-          - os: ubuntu-latest
-            python: "3.10"
-            pip-flags: "--pre"
+            python: "3.12"
     timeout-minutes: 15
 
     steps:
@@ -29,10 +26,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - uses: actions/cache@v3
-        with:
-          path: ~/.cache/pre-commit
-          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
       - run: pip install "git+https://@github.com/laminlabs/laminci"
       - run: nox -s lint
       - run: nox -s build

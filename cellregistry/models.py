@@ -3,9 +3,9 @@ from __future__ import annotations
 from bionty.models import CellType
 from django.db import models
 from django.db.models import CASCADE, PROTECT
-from lnschema_core import ids
-from lnschema_core.fields import CharField, ForeignKey
-from lnschema_core.models import (
+from lamindb.core import ids
+from lamindb.core.fields import CharField, ForeignKey
+from lamindb.models import (
     Artifact,
     CanCurate,
     Feature,
@@ -36,7 +36,7 @@ class Cell(Record, CanCurate, TracksRun, TracksUpdates):
     name: str = CharField(unique=True, db_index=True)
     """A unique name for the cell.
 
-    It's typically the barcode combined with an identifier for the dataset that
+    It is typically the barcode combined with an identifier for the dataset that
     first measured the cell.
 
     For example::
