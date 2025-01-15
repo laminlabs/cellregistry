@@ -3,7 +3,7 @@ from __future__ import annotations
 from bionty.models import CellType
 from django.db import models
 from django.db.models import CASCADE, PROTECT
-from lamindb.core import ids
+from lamindb.base import ids
 from lamindb.core.fields import CharField, ForeignKey
 from lamindb.models import (
     Artifact,
